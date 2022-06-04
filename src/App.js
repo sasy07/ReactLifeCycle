@@ -1,6 +1,7 @@
 import { Component } from "react";
 
 import "./App.css";
+import Clock from "./components/Clock";
 
 /*
  * // NOTE Mounting LifeCycle In Class Components
@@ -19,6 +20,8 @@ class App extends Component {
       showClock: true,
       color: false,
     };
+    this.colorChange = this.colorChange.bind(this);
+    this.clockChange = this.clockChange.bind(this);
   }
   static getDerivedStateFromProps(props, state) {
     console.log("App.js - getDrivedStateFromProps()");
@@ -39,13 +42,22 @@ class App extends Component {
       date: new Date(),
     });
   }
-
+  clockChange() {
+    this.setState({ showClock: !this.state.showClock });
+  }
+  colorChange() {
+    this.setState({ color: !this.state.color });
+  }
   render() {
+    const { date, showClock, color } = this.state;
     console.log("App.js - render()");
     return (
       <div className="App">
         <p>سلام دوستان عزیز</p>
-        <p>ساعت الان : {this.state.date.toLocaleTimeString()}</p>
+        {showClock ? <Clock color = {color} date={date} /> : null}
+        <hr />
+        <button onClick={this.clockChange}>نمایش ساعت</button>
+        <button onClick={this.colorChange}>تغییر رنگ</button>
       </div>
     );
   }
